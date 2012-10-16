@@ -1,13 +1,13 @@
 // ==UserScript==
-// @id             teamliquidhideimagess@yoshi
+//
 // @name           Teamliquid - Hide images by new users
-// @version        1.0
+// @description    Hides posts by new users
 // @namespace      Yoshi-
 // @author         Yoshi-
-// @description    Hides images by new users
+// @version        0.1
 // @include        http://www.teamliquid.net/forum/viewmessage.php*
+//
 // ==/UserScript==
-
 
 var forumInfos = document.getElementsByClassName('forummsginfo');
 var forumPosts = document.getElementsByClassName('forumPost');
