@@ -1,5 +1,4 @@
 // ==UserScript==
-// @id             teamliquidhideimagess@yoshi
 // @name           Teamliquid - Hide images by new users
 // @version        1.0
 // @namespace      Yoshi-
