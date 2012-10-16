@@ -14,7 +14,7 @@ var forumPosts = document.getElementsByClassName('forumPost');
 var patternPosts = /Posts (\d+)/;
 var image = "http://i.imgur.com/kxwFW.png";
 
-document.getElementsByClassName('top_menu left')[0].innerHTML+="<div><a href='#' id='postcountsetting'>Here</a></div>";
+document.getElementsByClassName('top_menu left')[0].innerHTML+="<div><a href='#' id='postcountsetting'>Postcount Setting</a></div>";
 
 function setPostcount() {
     GM_setValue('postcount', prompt('Maxinum Postcount to hide? 0=deactivate', GM_getValue('postcount')));
