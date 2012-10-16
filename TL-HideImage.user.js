@@ -4,11 +4,11 @@
 // @description    Hides posts by new users
 // @namespace      Yoshi-
 // @author         Yoshi-
-// @version        0.1
+// @version        0.2
 // @include        http://www.teamliquid.net/forum/viewmessage.php*
+// @run-at         document-end
 //
 // ==/UserScript==
-
 var forumInfos = document.getElementsByClassName('forummsginfo');
 var forumPosts = document.getElementsByClassName('forumPost');
 var patternPosts = /Posts (\d+)/;
@@ -20,28 +20,38 @@ function setPostcount() {
     GM_setValue('postcount', prompt('Maxinum Postcount to hide? 0=deactivate', GM_getValue('postcount')));
 }
 
+
 function showImage(k,i) {
 	forumPosts[i].childNodes[k].src = forumPosts[i].childNodes[k].oldsrc;
 }
-function findImage(i) {
 
-	for(k in forumPosts[i].childNodes) {
-		if(forumPosts[i].childNodes[k].tagName == "IMG") {
-			forumPosts[i].childNodes[k].setAttribute('oldsrc', forumPosts[i].childNodes[k].src);
-			forumPosts[i].childNodes[k].src = image;
-			forumPosts[i].childNodes[k].setAttribute('onclick', 'this.src=this.getAttribute(\'oldsrc\');');
+function replaceImage(i, nodes) {
+	if(nodes == undefined) nodes = forumPosts[i].childNodes
+	for(k in nodes) {
+		if(isNaN(k)) continue;
+		if(nodes[k].tagName == "IMG") {
+			nodes[k].setAttribute('oldsrc', nodes[k].src);
+			nodes[k].src = image;
+			nodes[k].setAttribute('onclick', 'this.src=this.getAttribute(\'oldsrc\');return false;');
+		}
+		else {
+			if(nodes[k].hasChildNodes()) {
+				replaceImage(i, nodes[k].childNodes);
+			}
 		}
 	}
 }
 
-for (var i=0;i<(forumInfos.length-1);i++) {
-    if(undefined !== forumInfos[i].innerHTML) {
-        forumPostInfo = forumInfos[i].innerHTML;
+h=0;
+while(h<(forumInfos.length-1)) {
+    if(undefined !== forumInfos[h].innerHTML) {
+        forumPostInfo = forumInfos[h].innerHTML;
 		posts = forumPostInfo.match(patternPosts);
 		if(posts[1] < GM_getValue('postcount')) {
-			findImage(i);
+			replaceImage(h);
 		}
     }
+	h++;
 }
 
 if(GM_getValue('postcount') == undefined) {
@@ -51,6 +61,3 @@ if(GM_getValue('postcount') == undefined) {
 
 ps = document.getElementById('postcountsetting');
 ps.addEventListener('click', setPostcount, false);
-
-
-
